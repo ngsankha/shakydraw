@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400');
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  color: #313131;
+  font-family: 'Roboto', sans-serif;
+}
+
+sup {
+  font-size: 12px;
+  padding-left: 3px;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.panel {
+  width: 50%;
+  float: left;
+  height: calc(100% - 80px);
+  margin-top: 10px;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 16px;
+  border-width: 0;
+  border-right: solid #eee 1px;
+  box-sizing: border-box;
+  padding: 15px;
+  resize: none;
+  outline: none;
+}
+
+canvas {
+  width: auto;
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+.header {
+  position: relative;
+  z-index: 1;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  padding: 15px;
+}
+
+.header > h1 {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.header h1 span {
+  color: #818181;
+}
+
+.header > span {
+  font-size: 13px;
+  line-height: 29px;
+}
+
+.right-options {
+  float: right;
+  font-size: 13px;
+  line-height: 24px;
+}
+
+.right-options > a {
+  float: left;
+  margin: 0 15px;
+  text-decoration: none;
+  color: #555;
+  padding: 2px;
+}
+
+.right-options > a.download{
+  padding: 2px;
+  text-decoration: none;
+  color: #fff;
+  background: #50a6f6;
+  border-radius: 3px;
+  display: block;
+  width: 120px;
+  text-align: center;
+  border-bottom: none;
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,.8);
+  z-index: 2;
+  display: none;
+}
+
+.modal {
+  z-index: 10;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: #fff;
+  width: 500px;
+  height: 230px;
+  border: 1px solid #ddd;
+  padding: 20px 20px;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.modal h1 {
+  font-size: 24px;
+  font-weight: 400;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.modal p {
+  font-size: 13px;
+  margin: 20px 20px;
+  text-align: center;
+}
+
+.modal a {
+  text-decoration: none;
+  background-color: #ccc;
+  color: #333;
+}
+
+.modal a:visted {
+  color: #333;
+}
+
+.modal a:hover {
+  background-color: #ddd;
+}
+
+#close {
+  font-size: 13px;
+  text-transform: uppercase;;
+  color: #fff;
+  position: absolute;
+  top: -30px;
+  right: 0;
+}

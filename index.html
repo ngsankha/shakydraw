@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ShakyDraw</title>
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Shaky<span>Draw</span><sup>β</sup></h1>
+        <span>Beautiful hand-drawn block diagrams from plain text</span>
+
+        <span class="right-options">
+          <a class="download" href="#" id="download" download="drawing.png">Download</a>
+          <a href="#" id="about">About</a>
+        </span>
+      </div>
+      <div class="panel">
+        <textarea id="textarea">
+  +---------+      +---------+
+  |         |      |         |
+  | Idea1 *-+------+-> Idea2 |
+  |         |      |         |
+  |         |      |    *    |
+  |         |      |    |    |
+  +---------+      +----+----+
+                        |
+              Label text|
+                        |
+                        v
+  +----------+     +----------+
+  |  line 1  |     |          |
+  +----------+     |  Idea 3  |
+  |  line 2  |     |          |
+  +----------+     +----------+
+  |  line 3  |
+  +----------+
+      |       +~~~~~~~~~~~~~~~+
+      |       !               !
+      +~~~~~~~+~> Gray boxes  !
+              !               !
+              +~~~~~~~~~~~~~~~+
+</textarea>
+      </div>
+      <div class="panel">
+        <canvas id="canvas"></canvas>
+      </div>
+    </div>
+    <div class="modal-wrapper" id="overlay">
+      <div class="modal">
+        <div id="close">X &nbsp; Close</div>
+        <h1>About</h1>
+        <p>ShakyDraw generates beautiful hand-drawn flow-diagrams from simple ASCII text art. Use this to generate images for your presentations, blog posts or documentation for free!</p>
+        <p>Have an idea, suggestion or improvement in mind for ShakyDraw? Drop a tweet to <a href="https://twitter.com/sankha93" target="_blank">@sankha93</a>.</p>
+      </div>
+    </div>
+    <script type="text/javascript" src="bundle.js"></script>
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-100773148-1', 'auto');
+ga('send', 'pageview');
+</script>
+  </body>
+</html>
