@@ -388,6 +388,12 @@ var $ = function(id) {
 };
 
 var drawDiagram = function() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'general',
+    eventAction: 'click',
+    eventLabel: 'redraw'
+  });
   var canvas, ctx, figure, figures, height, j, k, len, len1, results, width;
   figures = parseASCIIArt($('textarea').value);
   width = 0;
@@ -418,6 +424,12 @@ textarea.addEventListener('keyup', drawDiagram);
 doc.addEventListener('DOMContentLoaded', drawDiagram, false);
 doc.fonts.ready.then(drawDiagram);
 $('download').addEventListener('click', function() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'general',
+    eventAction: 'click',
+    eventLabel: 'download'
+  });
   var dataURL = $('canvas').toDataURL('image/png');
   $('download').href = dataURL;
 }, false);
@@ -425,5 +437,11 @@ $('close').addEventListener('click', function() {
   $('overlay').style['display'] = 'none';
 }, false);
 $('about').addEventListener('click', function() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'general',
+    eventAction: 'click',
+    eventLabel: 'about'
+  });
   $('overlay').style['display'] = 'block';
 }, false);
