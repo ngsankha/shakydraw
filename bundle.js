@@ -368,12 +368,6 @@ var $ = function(id) {
 };
 
 var drawDiagram = function() {
-  ga('send', {
-    hitType: 'event',
-    eventCategory: 'general',
-    eventAction: 'click',
-    eventLabel: 'redraw'
-  });
   var canvas, ctx, figure, figures, height, j, k, len, len1, results, width;
   figures = parseASCIIArt($('textarea').value);
   width = 0;
@@ -399,8 +393,24 @@ var drawDiagram = function() {
 
 var textarea = $('textarea');
 
-textarea.addEventListener('change', drawDiagram);
-textarea.addEventListener('keyup', drawDiagram);
+textarea.addEventListener('change', function() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'general',
+    eventAction: 'click',
+    eventLabel: 'redraw'
+  });
+  drawDiagram();
+});
+textarea.addEventListener('keyup', function() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'general',
+    eventAction: 'click',
+    eventLabel: 'redraw'
+  });
+  drawDiagram();
+});
 doc.addEventListener('DOMContentLoaded', drawDiagram, false);
 doc.fonts.ready.then(drawDiagram);
 $('download').addEventListener('click', function() {
