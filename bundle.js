@@ -2,105 +2,100 @@ var slice = [].slice;
 
 var FONT = "20pt 'Gloria Hallelujah'";
 
-var ShakyCanvas = (function() {
-  function ShakyCanvas(canvas) {
-    this.ctx = canvas.getContext('2d');
-    this.ctx.lineWidth = 3;
-    this.ctx.font = FONT;
-    this.ctx.textBaseline = 'middle';
+var ShakyCanvas = function(canvas) {
+  this.ctx = canvas.getContext('2d');
+  this.ctx.lineWidth = 3;
+  this.ctx.font = FONT;
+  this.ctx.textBaseline = 'middle';
+}
+
+ShakyCanvas.prototype.moveTo = function(x01, y01) {
+  this.x0 = x01;
+  this.y0 = y01;
+};
+
+ShakyCanvas.prototype.lineTo = function(x1, y1) {
+  this.shakyLine(this.x0, this.y0, x1, y1);
+  return this.moveTo(x1, y1);
+};
+
+ShakyCanvas.prototype.shakyLine = function(x0, y0, x1, y1) {
+  var K, dx, dy, k1, k2, l, l3, l4, x3, x4, y3, y4;
+  dx = x1 - x0;
+  dy = y1 - y0;
+  l = Math.sqrt(dx * dx + dy * dy);
+  K = Math.sqrt(l) / 1.5;
+  k1 = Math.random();
+  k2 = Math.random();
+  l3 = Math.random() * K;
+  l4 = Math.random() * K;
+  x3 = x0 + dx * k1 + dy / l * l3;
+  y3 = y0 + dy * k1 - dx / l * l3;
+  x4 = x0 + dx * k2 - dy / l * l4;
+  y4 = y0 + dy * k2 + dx / l * l4;
+  this.ctx.moveTo(x0, y0);
+  return this.ctx.bezierCurveTo(x3, y3, x4, y4, x1, y1);
+};
+
+ShakyCanvas.prototype.bulb = function(x0, y0) {
+  var fuzziness, i, j, results;
+  fuzziness = function() {
+    return Math.random() * 2 - 1;
+  };
+  results = [];
+  for (i = j = 0; j <= 2; i = ++j) {
+    this.beginPath();
+    this.ctx.arc(x0 + fuzziness(), y0 + fuzziness(), 5, 0, Math.PI * 2, true);
+    this.ctx.closePath();
+    results.push(this.ctx.fill());
   }
+  return results;
+};
 
-  ShakyCanvas.prototype.moveTo = function(x01, y01) {
-    this.x0 = x01;
-    this.y0 = y01;
-  };
+ShakyCanvas.prototype.arrowhead = function(x0, y0, x1, y1) {
+  var alpha, alpha3, alpha4, dx, dy, l3, l4, x3, x4, y3, y4;
+  dx = x0 - x1;
+  dy = y0 - y1;
+  alpha = dy === 0 ? dx < 0 ? -Math.PI : 0 : Math.atan(dy / dx);
+  alpha3 = alpha + 0.5;
+  alpha4 = alpha - 0.5;
+  l3 = 20;
+  x3 = x1 + l3 * Math.cos(alpha3);
+  y3 = y1 + l3 * Math.sin(alpha3);
+  this.beginPath();
+  this.moveTo(x3, y3);
+  this.lineTo(x1, y1);
+  this.stroke();
+  l4 = 20;
+  x4 = x1 + l4 * Math.cos(alpha4);
+  y4 = y1 + l4 * Math.sin(alpha4);
+  this.beginPath();
+  this.moveTo(x4, y4);
+  this.lineTo(x1, y1);
+  return this.stroke();
+};
 
-  ShakyCanvas.prototype.lineTo = function(x1, y1) {
-    this.shakyLine(this.x0, this.y0, x1, y1);
-    return this.moveTo(x1, y1);
-  };
+ShakyCanvas.prototype.beginPath = function() {
+  return this.ctx.beginPath();
+};
 
-  ShakyCanvas.prototype.shakyLine = function(x0, y0, x1, y1) {
-    var K, dx, dy, k1, k2, l, l3, l4, x3, x4, y3, y4;
-    dx = x1 - x0;
-    dy = y1 - y0;
-    l = Math.sqrt(dx * dx + dy * dy);
-    K = Math.sqrt(l) / 1.5;
-    k1 = Math.random();
-    k2 = Math.random();
-    l3 = Math.random() * K;
-    l4 = Math.random() * K;
-    x3 = x0 + dx * k1 + dy / l * l3;
-    y3 = y0 + dy * k1 - dx / l * l3;
-    x4 = x0 + dx * k2 - dy / l * l4;
-    y4 = y0 + dy * k2 + dx / l * l4;
-    this.ctx.moveTo(x0, y0);
-    return this.ctx.bezierCurveTo(x3, y3, x4, y4, x1, y1);
-  };
+ShakyCanvas.prototype.stroke = function() {
+  return this.ctx.stroke();
+};
 
-  ShakyCanvas.prototype.bulb = function(x0, y0) {
-    var fuzziness, i, j, results;
-    fuzziness = function() {
-      return Math.random() * 2 - 1;
-    };
-    results = [];
-    for (i = j = 0; j <= 2; i = ++j) {
-      this.beginPath();
-      this.ctx.arc(x0 + fuzziness(), y0 + fuzziness(), 5, 0, Math.PI * 2, true);
-      this.ctx.closePath();
-      results.push(this.ctx.fill());
-    }
-    return results;
-  };
+ShakyCanvas.prototype.setStrokeStyle = function(val) {
+  return this.ctx.strokeStyle = val;
+};
 
-  ShakyCanvas.prototype.arrowhead = function(x0, y0, x1, y1) {
-    var alpha, alpha3, alpha4, dx, dy, l3, l4, x3, x4, y3, y4;
-    dx = x0 - x1;
-    dy = y0 - y1;
-    alpha = dy === 0 ? dx < 0 ? -Math.PI : 0 : Math.atan(dy / dx);
-    alpha3 = alpha + 0.5;
-    alpha4 = alpha - 0.5;
-    l3 = 20;
-    x3 = x1 + l3 * Math.cos(alpha3);
-    y3 = y1 + l3 * Math.sin(alpha3);
-    this.beginPath();
-    this.moveTo(x3, y3);
-    this.lineTo(x1, y1);
-    this.stroke();
-    l4 = 20;
-    x4 = x1 + l4 * Math.cos(alpha4);
-    y4 = y1 + l4 * Math.sin(alpha4);
-    this.beginPath();
-    this.moveTo(x4, y4);
-    this.lineTo(x1, y1);
-    return this.stroke();
-  };
+ShakyCanvas.prototype.setFillStyle = function(val) {
+  return this.ctx.fillStyle = val;
+};
 
-  ShakyCanvas.prototype.beginPath = function() {
-    return this.ctx.beginPath();
-  };
-
-  ShakyCanvas.prototype.stroke = function() {
-    return this.ctx.stroke();
-  };
-
-  ShakyCanvas.prototype.setStrokeStyle = function(val) {
-    return this.ctx.strokeStyle = val;
-  };
-
-  ShakyCanvas.prototype.setFillStyle = function(val) {
-    return this.ctx.fillStyle = val;
-  };
-
-  ShakyCanvas.prototype.fillText = function() {
-    var args, ref;
-    args = 1 <= arguments.length ? slice.call(arguments, 0) : [];
-    return (ref = this.ctx).fillText.apply(ref, args);
-  };
-
-  return ShakyCanvas;
-
-})();
+ShakyCanvas.prototype.fillText = function() {
+  var args, ref;
+  args = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+  return (ref = this.ctx).fillText.apply(ref, args);
+};
 
 var CELL_SIZE = 15;
 
@@ -112,67 +107,52 @@ var Y = function(y) {
   return y * CELL_SIZE + (CELL_SIZE / 2);
 };
 
-var Point = (function() {
-  function Point(x2, y2) {
-    this.x = x2;
-    this.y = y2;
+var Point = function(x2, y2) {
+  this.x = x2;
+  this.y = y2;
+}
+
+var Line = function(x01, y01, start1, x11, y11, end1, color1) {
+  this.x0 = x01;
+  this.y0 = y01;
+  this.start = start1;
+  this.x1 = x11;
+  this.y1 = y11;
+  this.end = end1;
+  this.color = color1;
+}
+
+Line.prototype.draw = function(ctx) {
+  ctx.setStrokeStyle(this.color);
+  ctx.setFillStyle(this.color);
+  ctx.beginPath();
+  ctx.moveTo(X(this.x0), Y(this.y0));
+  ctx.lineTo(X(this.x1), Y(this.y1));
+  ctx.stroke();
+  this._ending(ctx, this.start, X(this.x1), Y(this.y1), X(this.x0), Y(this.y0));
+  return this._ending(ctx, this.end, X(this.x0), Y(this.y0), X(this.x1), Y(this.y1));
+};
+
+Line.prototype._ending = function(ctx, type, x0, y0, x1, y1) {
+  switch (type) {
+    case 'circle':
+      return ctx.bulb(x1, y1);
+    case 'arrow':
+      return ctx.arrowhead(x0, y0, x1, y1);
   }
+};
 
-  return Point;
+var Text = function(x01, y01, text1, color1) {
+  this.x0 = x01;
+  this.y0 = y01;
+  this.text = text1;
+  this.color = color1;
+}
 
-})();
-
-var Line = (function() {
-  function Line(x01, y01, start1, x11, y11, end1, color1) {
-    this.x0 = x01;
-    this.y0 = y01;
-    this.start = start1;
-    this.x1 = x11;
-    this.y1 = y11;
-    this.end = end1;
-    this.color = color1;
-  }
-
-  Line.prototype.draw = function(ctx) {
-    ctx.setStrokeStyle(this.color);
-    ctx.setFillStyle(this.color);
-    ctx.beginPath();
-    ctx.moveTo(X(this.x0), Y(this.y0));
-    ctx.lineTo(X(this.x1), Y(this.y1));
-    ctx.stroke();
-    this._ending(ctx, this.start, X(this.x1), Y(this.y1), X(this.x0), Y(this.y0));
-    return this._ending(ctx, this.end, X(this.x0), Y(this.y0), X(this.x1), Y(this.y1));
-  };
-
-  Line.prototype._ending = function(ctx, type, x0, y0, x1, y1) {
-    switch (type) {
-      case 'circle':
-        return ctx.bulb(x1, y1);
-      case 'arrow':
-        return ctx.arrowhead(x0, y0, x1, y1);
-    }
-  };
-
-  return Line;
-
-})();
-
-var Text = (function() {
-  function Text(x01, y01, text1, color1) {
-    this.x0 = x01;
-    this.y0 = y01;
-    this.text = text1;
-    this.color = color1;
-  }
-
-  Text.prototype.draw = function(ctx) {
-    ctx.setFillStyle(this.color);
-    return ctx.fillText(this.text, X(this.x0), Y(this.y0));
-  };
-
-  return Text;
-
-})();
+Text.prototype.draw = function(ctx) {
+  ctx.setFillStyle(this.color);
+  return ctx.fillText(this.text, X(this.x0), Y(this.y0));
+};
 
 var parseASCIIArt = function(string) {
   var at, data, dir, erase, eraseChar, extractLine, extractText, figures, findLineChar, height, isLineEnding, isPartOfLine, j, k, len, line, lines, ref, ref1, toColor, width, x, y;
