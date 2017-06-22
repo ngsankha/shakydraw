@@ -412,7 +412,12 @@ textarea.addEventListener('keyup', function() {
   drawDiagram();
 });
 doc.addEventListener('DOMContentLoaded', drawDiagram, false);
-doc.fonts.ready.then(drawDiagram);
+
+if (doc.fonts)
+  doc.fonts.ready.then(drawDiagram);
+else
+  setTimeout(drawDiagram, 2000); // Things you need to do for Edge and IE :(
+
 $('download').addEventListener('click', function() {
   ga('send', {
     hitType: 'event',
