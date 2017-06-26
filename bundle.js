@@ -369,6 +369,7 @@ var $ = function(id) {
 
 var drawDiagram = function() {
   var canvas, ctx, figure, figures, height, j, k, len, len1, results, width;
+  localStorage.setItem('leftPane', textarea.value);
   figures = parseASCIIArt($('textarea').value);
   width = 0;
   height = 0;
@@ -400,7 +401,6 @@ textarea.addEventListener('change', function() {
     eventAction: 'click',
     eventLabel: 'redraw'
   });
-  localStorage.setItem('leftPane', textarea.value);
   drawDiagram();
 });
 textarea.addEventListener('keyup', function() {
