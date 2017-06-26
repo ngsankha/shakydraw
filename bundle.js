@@ -414,7 +414,7 @@ textarea.addEventListener('keyup', function() {
 });
 doc.addEventListener('DOMContentLoaded', drawDiagram, false);
 var oldText = localStorage.getItem('leftPane');
-if (oldText !== '')
+if (!oldText)
   textarea.value = oldText;
 
 if (doc.fonts)
