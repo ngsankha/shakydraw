@@ -400,6 +400,7 @@ textarea.addEventListener('change', function() {
     eventAction: 'click',
     eventLabel: 'redraw'
   });
+  localStorage.setItem('leftPane', textarea.value);
   drawDiagram();
 });
 textarea.addEventListener('keyup', function() {
@@ -412,6 +413,9 @@ textarea.addEventListener('keyup', function() {
   drawDiagram();
 });
 doc.addEventListener('DOMContentLoaded', drawDiagram, false);
+var oldText = localStorage.getItem('leftPane');
+if (oldText !== '')
+  textarea.value = oldText;
 
 if (doc.fonts)
   doc.fonts.ready.then(drawDiagram);
